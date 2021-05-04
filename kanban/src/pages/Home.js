@@ -1,11 +1,11 @@
 import React from 'react';
-import List from '../component/List'
+import Todos from '../component/Todos'
 
 const Home = () => {
   return (
     <div>
       <h1>Hello ini Home</h1>
-      <List title='test'/>
+      <Todos title='test'/>
     </div>
   );
 };
