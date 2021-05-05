@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 import { useHistory } from 'react-router-dom'
 import {
   Button,
@@ -11,10 +11,8 @@ import {
   Link,
   Snackbar
 } from '@material-ui/core'
-// import { signup } from '../helpers/auth'
-import { useDispatch } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import { registerUser } from '../store/action'
-// import gridUseStyles from '../helpers/gridStyles'
 import MuiAlert from '@material-ui/lab/Alert';
 
 function Alert(props) {
@@ -23,12 +21,10 @@ function Alert(props) {
 
 export default function FormDialog() {
   const dispatch = useDispatch()
-  const history = useHistory()
 
   const [formRegister, setFormRegister] = useState({})
   const [error, setError] = useState('')
   const [open, setOpen] = useState(false);
-  // const classes = gridUseStyles()
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   function handleChange(e) {
@@ -46,24 +42,24 @@ export default function FormDialog() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    console.log(formRegister)
-    const data = await dispatch(registerUser(formRegister))
-    if (data.message && data.message === 'Account created successfully') {
-      console.log(data)
-      setOpen(false)
-    }else{
-      setError(error.message)
-        setOpenSnackbar(true);
+    try {
+      console.log(formRegister)
+      const response = await dispatch(registerUser(formRegister))
+      console.log(response)
+      if (response.message === 'Account created successfully') {
+        console.log(true)
+        // await setOpenSnackbar(true)
+        setOpen(false)
+
+      }else{
+        setError(response)
+        throw response
+      }
+    } catch (error) {
+      console.log(error)
+      setOpenSnackbar(true)
     }
 
-    // try {
-    //   const data = await signup(formRegister.email, formRegister.password)
-    //   console.log(data)
-    //   await dispatch(register(formRegister))
-    // } catch (error) {
-    //   setError(error.message)
-    //   setOpenSnackbar(true);
-    // }
   }
 
   const handleCloseSnackbar = (event, reason) => {
